@@ -26,8 +26,9 @@ Migration.prototype.run = function(options, callback) {
 
   var web3 = new Web3();
   web3.setProvider(options.provider);
-  pry = require('pryjs')
-  eval(pry.it)
+  options.networks['development'].gasPrice = parseInt(web3.eth.gasPrice)
+  options.networks['development'].gas = parseInt(web3.eth.getBlock('latest').gasLimit)
+
   logger.log("Running migration: " + path.relative(options.migrations_directory, this.file));
 
   var resolver = new ResolverIntercept(options.resolver);
